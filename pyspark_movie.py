@@ -46,7 +46,7 @@ with DAG(
     join_df = BashOperator(
         task_id="join.df",
         bash_command="""
-        $SPARK_HOME/bin/spark-submit /home/sujin/code/pyspark_airflow/pyspark/sa.py "JOIN_TASK_APP" {{ds_nodash}}
+        $SPARK_HOME/bin/spark-submit /home/joo/code/spark_airflow/dags/pyspark/simple.py "JOIN_TASK_APP" {{ds_nodash}}
         """
     )
     agg_df = BashOperator(
