@@ -6,10 +6,13 @@ authors = [
     {name = "baechu805", email = "bjoo606@naver.com"},
 ]
 dependencies = []
-requires-python = "==3.11.*"
+requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
 
 
 [tool.pdm]
-distribution = false
+distribution = true
+
+[project.scripts]
+re = 'spark_airflow.repartition:re_partition'
