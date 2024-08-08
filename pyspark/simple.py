@@ -24,5 +24,7 @@ SELECT
     showCnt, --- 사영횟수
     multiMovieYn, -- 다양성 영화/상업영화를 구분지어 조회할 수 있습니다. “Y” : 다양성 영화 “N”
     repNationCd, -- 한국/외국 영화별로 조회할 수 있습니다. “K: : 한국영화 “F” : 외국영화
-    #load_dt
+    load_dt
 FROM df1
+
+spark.stop()
