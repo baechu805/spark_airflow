@@ -28,9 +28,9 @@ with DAG(
     tags=['pyspark','movie'],
 ) as dag:
 
-    def fun_re_partition (ds_nodash):
+    def fun_re_partition (dt):
         from spark_airflow.repartition import re_partition
-        re_partition(ds_nodash)
+        re_partition(dt)
         
     start = EmptyOperator(task_id = 'start')
     end = EmptyOperator(task_id = 'end')
@@ -38,9 +38,9 @@ with DAG(
     re_partition = PythonVirtualenvOperator(
         task_id = "re_partition",
         python_callable = fun_re_partition,
-        REQUIREMENTS = ["git+https://github.com/baechu805/spark_airflow.git@air"],
+        requirements = ["git+https://github.com/baechu805/spark_airflow.git@air"],
         system_site_packages = False,
-        op_orgs=["{{ds_nodash}}"]
+        op_args=["{{ds_nodash}}"]
     )
 
     join_df = BashOperator(
