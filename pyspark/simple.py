@@ -2,10 +2,10 @@
 from pyspark.sql import SparkSession
 import sys
 
-APP_NAME = sys.argv[1]
-LOAD_DT = sys.argv[2]
+APP_NAME = sys.argv[1] # 대그 배시 커맨드라인 인자 받아오기,JOIN_TASK_APP
+LOAD_DT = sys.argv[2] # {{ds_nodash}}
 
-spark = SparkSession.builder.appName(APP_NAME).getOrCreate()
+spark = SparkSession.builder.appName(APP_NAME).getOrCreate().enableHiveSupport()
 
 #logFile = "/home/joo/app/spark-3.5.1-bin-hadoop3/README.md"  # Should be some file on your system
 #logData = spark.read.text(logFile).cache()
@@ -28,7 +28,6 @@ result_df = spark.sql(f"""
         {LOAD_DT} AS load_dt
     FROM df1
 """)
-
-result_df.show()
+result_df.write.partitionBy("load_dt", "multiMovieYn", "repNationCd").parquet("/home/joo/data/movie/hive/")
 
 spark.stop()

@@ -28,7 +28,7 @@ with DAG(
     tags=['pyspark','movie'],
 ) as dag:
 
-    def fun_re_partition (dt):
+    def fun_re_partition (dt): # ds_nodash 인자 전달
         from spark_airflow.repartition import re_partition
         re_partition(dt)
         
@@ -38,16 +38,18 @@ with DAG(
     re_partition = PythonVirtualenvOperator(
         task_id = "re_partition",
         python_callable = fun_re_partition,
-        requirements = ["git+https://github.com/baechu805/spark_airflow.git@air"],
+        requirements = ["git+https://github.com/baechu805/spark_airflow.git@air"], #외부패키지 설치
         system_site_packages = False,
-        op_args=["{{ds_nodash}}"]
+        op_args=["{{ds_nodash}}"] # 함수 인자 지정
     )
 
     join_df = BashOperator(
-        task_id="join.df",
+        task_id="join_df",
+        # 실행 명령어 뒷 경로 실행
         bash_command="""
-        $SPARK_HOME/bin/spark-submit /home/joo/code/spark_airflow/dags/pyspark/simple.py "JOIN_TASK_APP" {{ds_nodash}}
+        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/dags/pyspark/simple.py "JOIN_TASK_APP" {{ds_nodash}}
         """
+# "JOIN_TASK_APP"와  {{ds_nodash}} 인자로 가짐
     )
     agg_df = BashOperator(
         task_id = 'agg_df',
