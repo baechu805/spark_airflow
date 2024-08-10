@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import shutil
 
 def re_partition(load_dt):
     home_dir = os.path.expanduser("~")
@@ -9,4 +10,10 @@ def re_partition(load_dt):
 
     df = pd.read_parquet(read_path)
     df['load_dt']=load_dt
-    df.to_parquet(write_base, partition_cols=['load_dt','multiMovieYn', 'repNationCd'])
+    rm_dir(write_path)
+    df.to_parquet(write_path, partition_cols=['load_dt','multiMovieYn', 'repNationCd'])
+    #return len(df), read_path, wirte_path
+    
+def rm_dir(write_path):
+    if os.path.exists(write_path):
+        shutil.rmtree(write_path)
