@@ -23,7 +23,7 @@ with DAG(
     description='pyspark_movie',
     schedule="10 2 * * *",
     start_date=datetime(2015, 1, 1),
-    end_date=datetime(2015, 1, 11),
+    end_date=datetime(2015, 1, 4),
     catchup=True,
     tags=['pyspark','movie'],
 ) as dag:
