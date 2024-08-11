@@ -29,7 +29,7 @@ with DAG(
 ) as dag:
 
     def fun_re_partition (dt): # ds_nodash 인자 전달
-        from spark_airflow.repartition import re_partition
+        from pyspark.repartition import re_partition
         re_partition(dt)
         
     start = EmptyOperator(task_id = 'start')
