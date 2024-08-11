@@ -38,7 +38,7 @@ with DAG(
     re_partition = PythonVirtualenvOperator(
         task_id = "re_partition",
         python_callable = fun_re_partition,
-        requirements = ["git+https://github.com/baechu805/spark_airflow.git@air"], #외부패키지 설치
+        requirements = ["git+https://github.com/baechu805/spark_airflow.git@def"], #외부패키지 설치
         system_site_packages = False,
         op_args=["{{ds_nodash}}"] # 함수 인자 지정
     )
@@ -47,14 +47,14 @@ with DAG(
         task_id="join_df",
         # 실행 명령어 뒷 경로 실행
         bash_command="""
-        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/pyspark/movie_join_df.py {{ds_nodash}}
+        $SPARK_HOME/bin/spark-submit /home/joo/code/spark_airflow/pyspark/movie_join_df.py {{ds_nodash}}
         """
 # "JOIN_TASK_APP"와  {{ds_nodash}} 인자로 가짐
     )
     agg_df = BashOperator(
         task_id = 'agg_df',
         bash_command='''
-        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/pyspark/movie_sum_df.py {{ds_nodash}}
+        $SPARK_HOME/bin/spark-submit /home/joo/code/spark_airflow/pyspark/movie_sum_df.py {{ds_nodash}}
         '''
     )
 start >> re_partition >> join_df >> agg_df >> end
