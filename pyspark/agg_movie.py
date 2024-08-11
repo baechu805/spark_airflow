@@ -9,7 +9,7 @@ LOAD_DT = sys.argv[2]
 
 spark = SparkSession.builder.appName(APP_NAME).getOrCreate()
 
-df1 = spark.read.parquet(f"/home/diginori/data/movie/hive/load_dt={LOAD_DT}")
+df1 = spark.read.parquet(f"/home/joo/data/movie/hive/load_dt={LOAD_DT}")
 
 df1.show()
 
