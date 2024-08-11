@@ -23,7 +23,7 @@ with DAG(
     description='pyspark_movie',
     schedule="10 2 * * *",
     start_date=datetime(2015, 1, 1),
-    end_date=datetime(2015, 1, 4),
+    end_date=datetime(2015, 1, 11),
     catchup=True,
     tags=['pyspark','movie'],
 ) as dag:
@@ -47,18 +47,14 @@ with DAG(
         task_id="join_df",
         # 실행 명령어 뒷 경로 실행
         bash_command="""
-        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/dags/pyspark/simple.py "JOIN_TASK_APP" {{ds_nodash}}
+        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/pyspark/movie_join_df.py {{ds_nodash}}
         """
 # "JOIN_TASK_APP"와  {{ds_nodash}} 인자로 가짐
     )
     agg_df = BashOperator(
         task_id = 'agg_df',
-        #python_callable = extract,
-        #op_kwargs = { 'parq_path' : "{{var.value.TP_PATH}}/extract_path" },
-        #system_site_packages = False,
-        #requirements = REQUIREMENTS,
-        #trigger_rule = "all_success",
         bash_command='''
+        $SPARK_HOME/bin/spark-submit /home/joo/code/pyspark_airflow/pyspark/movie_sum_df.py {{ds_nodash}}
         '''
     )
 start >> re_partition >> join_df >> agg_df >> end
