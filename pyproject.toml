@@ -1,6 +1,6 @@
 [project]
 name = "dags"
-version = "0.1.0"
+version = "0.2.0"
 description = "Default template for PDM package"
 authors = [
     {name = "baechu805", email = "bjoo606@naver.com"},
@@ -10,7 +10,7 @@ dependencies = [
     "pyarrow>=17.0.0",
     "pyspark>=3.5.1",
 ]
-requires-python = "==3.11.*"
+requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
 
